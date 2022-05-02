@@ -4,6 +4,7 @@ import bodyParser from "body-parser"
 import dotenv from 'dotenv'
 import cors from "cors"
 import http from "http"
+import Users from "./model/user/index.js"
 
 
 //app config
@@ -39,6 +40,11 @@ try {
 app.get("/", (req, res) => {
     res.send("Hello world. This is Phu Nguyen")
     
+});
+
+app.post("/api/user", (req, res) => {
+  Users.save(req.body)
+
 })
 
 
