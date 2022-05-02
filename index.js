@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 const server = http.createServer(app)
 
 //DB config
-const url = "mongodb+srv://phu1994:6298327@cluster0.rpsig.mongodb.net/message?retryWrites=true"
+const url = process.env.url_Mongoodb;
 
 try {
     await mongoose.connect(url);
