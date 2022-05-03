@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import cors from "cors"
 import http from "http"
 import Users from "./model/user/index.js"
+import { resolveSoa } from "dns"
 
 
 //app config
@@ -43,7 +44,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/user", (req, res) => {
-  Users.save(req.body)
+  Users.create(req.body, (err, data) => {
+    if (err) {
+      res.status(500).send(err)
+    } else {
+      res.status(200).send(data)
+    }
+  });
+  
+
 
 })
 
