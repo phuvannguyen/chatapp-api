@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const roomSchema = new mongoose.Schema({
+const conversationSchema = new mongoose.Schema({
     title: String,
     descrition: String,
     owner: { // _id of the owner user.
@@ -9,16 +9,23 @@ const roomSchema = new mongoose.Schema({
         required: 'Owner is required',
         index: true,      
 
-    },
-    isPrivate: Boolean, //whether the room is private or public.
+    },    
     member: [{
         type: Schema.ObjectId,
         ref: 'User',
         required: 'Owner is required',
         index: true, 
         }         
-    ]
-}, {timestamps: true});
+    ],
 
-const Rooms = mongoose.model("room", roomSchema);
-export default Rooms;
+    sticky: {// use sticky this message in the top of convertation
+      type: Schema.ObjectId,
+      ref: 'Message',
+    }    
+    
+    
+}, { timestamps: true })
+
+const Conversation = mongoose.model('conversation', conversationSchema);
+
+export default Conversation;

@@ -5,7 +5,6 @@ import dotenv from 'dotenv'
 import cors from "cors"
 import http from "http"
 import Users from "./model/user/index.js"
-import { resolveSoa } from "dns"
 
 
 //app config

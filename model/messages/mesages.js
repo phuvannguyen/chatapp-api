@@ -1,17 +1,21 @@
 import mongoose, { Schema } from 'mongoose';
 
 const messageSchema = new Schema({
-    chat: {
+    conversation: {
         type: Schema.ObjectId,
-        ref: 'Chat',
-        required: 'Chat is required',
+        ref: 'Conversation',
+        required: 'Conversation is required',
     },
     owner: {
         type: Schema.ObjectId,
         ref: 'User',
         required: 'Owner is required',
     },
-    content: String,    
+    content: String,
+    parent: {
+        type: Schema.ObjectId,
+        ref: 'Chat',
+      },  
 
     deletedAt: Date,
 }, { timestamps: true });
