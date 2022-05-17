@@ -9,7 +9,7 @@ const messageSchema = new Schema({
     owner: {
         type: Schema.ObjectId,
         ref: 'User',
-        required: 'Owner is required',
+        required: 'User is required',
     },
     content: String,
     parent: {
