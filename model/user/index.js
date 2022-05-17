@@ -14,8 +14,8 @@ const userSchema = new mongoose.Schema({
         sparse: true
     },
     password: String,
-    passwordResetToken: String, // when user forget password, will send a token. Then user type it, can change forget password.
-    passwordResetExpires: Date, // time limit token.
+    // passwordResetToken: String, // when user forget password, will send a token. Then user type it, can change forget password.
+    // passwordResetExpires: Date, // time limit token.
     github: {//GitHub’s profile id
         type: String,        
         unique: true,
@@ -35,14 +35,14 @@ const userSchema = new mongoose.Schema({
         gender: String
 
     },
-    tokens: [{//: list of linked services tokens
-        _id: false,
-        service: String, // service name (i.e. github)
-        accessToken: String//access token given by the service. 
+    // tokens: [{//: list of linked services tokens
+    //     _id: false,
+    //     service: String, // service name (i.e. github)
+    //     accessToken: String//access token given by the service. 
 
-    }
+    // }
 
-    ]  
+    // ]  
 
 
 
