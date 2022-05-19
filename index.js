@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import cors from "cors"
 import http from "http"
 import Users from "./model/user/index.js"
+import login from "./controllers/auth.js"
 
 
 //app config
@@ -53,7 +54,9 @@ app.post("/api/user", (req, res) => {
   
 
 
-})
+});
+
+app.post("/api/login", login)
 
 
 
