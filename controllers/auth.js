@@ -5,15 +5,14 @@ import jwt  from "jsonwebtoken"
 
 dotenv.config();
 
-const login = async (req, res) => {
-    const { username, password} = req.body;
-    console.log(username, password)
+export const login = async (req, res) => {
+    const { username, password} = req.body;    
     //hash password to compare password in database
     const hashPassword = bcrypt.hashSync(password, 10);
     let isUser;
     try {
         isUser = await Users.findOne({username, password}).exec();
-        console.log(isUser)            
+                    
         
     } catch (error) {
         res.status(500).send(err);
@@ -37,20 +36,45 @@ const login = async (req, res) => {
         res.json({token: token})
       });
 
-    
+};
 
+export const registation = async(req, res) => {
+    const {username, email, password} = req.body;
+    const hashPassword = bcrypt.hashSync(password, 10);
+    let isUsername;
+    let isEmail;
+    try {
+        isUsername = await Users.findOne({username});
+        isEmail = await Users.findOne({email})
+    } catch (error) {
+        res.status(500).send(error);
+        return
+        
+    };
 
-    
+    if (isUsername) {
+        res.status(500).send("Error: Exist username");
+        return 
 
+    };
 
+    if (isEmail) {
+        res.status(500).send("Error: Exist email");
+        return 
 
-    
+    };
 
-    
-
-
+    try {
+        await Users.create({username, email, hashPassword});        
+                
+    } catch (error) {
+        
+        res.status(400).send(error)
+        
+    }    
 
 
 }
 
-export default login;
+
+
