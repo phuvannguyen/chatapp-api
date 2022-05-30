@@ -5,8 +5,8 @@ import dotenv from 'dotenv'
 import cors from "cors"
 import http from "http"
 import Users from "./model/user/index.js"
-import login from "./controllers/auth.js"
-
+import {login, registation} from "./controllers/auth.js"
+import { authenToken } from "./middleware/index.js"
 
 //app config
 const app = express();
@@ -38,7 +38,7 @@ try {
 
 //router
 
-app.get("/", (req, res) => {
+app.get("/", authenToken, (req, res) => {
     res.send("Hello world. This is Phu Nguyen")
     
 });
@@ -56,7 +56,9 @@ app.post("/api/user", (req, res) => {
 
 });
 
-app.post("/api/login", login)
+app.post("/api/login", login);
+
+app.post("/api/registation", registation)
 
 
 
