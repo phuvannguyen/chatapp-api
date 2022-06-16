@@ -11,8 +11,7 @@ export const login = async (req, res) => {
     const hashPassword = bcrypt.hashSync(password, 10);
     let isUser;
     try {
-        isUser = await Users.findOne({username, password}).exec();
-                    
+        isUser = await Users.findOne({username, hashPassword}).exec();                    
         
     } catch (error) {
         res.status(500).send(err);
@@ -21,7 +20,7 @@ export const login = async (req, res) => {
     };
 
     if (!isUser) {
-       res.status.send("Error: Wrong username or password");
+       res.status(500).send("Error: Wrong username or password");
        return        
     };
 
@@ -34,7 +33,9 @@ export const login = async (req, res) => {
             
           };        
         res.json({token: token})
-      });
+    });
+    console.log("Login", username, password)
+    
 
 };
 
@@ -65,12 +66,14 @@ export const registation = async(req, res) => {
     };
 
     try {
-        await Users.create({username, email, hashPassword});        
+        await Users.create({username, email, password: hashPassword});
+        console.log(username, email, hashPassword);
+        res.status(200).send("Success");        
                 
     } catch (error) {
         
         res.status(400).send(error)
-        
+        console.log(error)
     }    
 
 
