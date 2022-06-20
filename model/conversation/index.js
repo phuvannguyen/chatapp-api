@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+const { Schema } = mongoose;
 const conversationSchema = new mongoose.Schema({
     title: String,
     descrition: String,
@@ -13,7 +14,7 @@ const conversationSchema = new mongoose.Schema({
     member: [{
         type: Schema.ObjectId,
         ref: 'User',
-        required: 'Owner is required',
+        required: 'Member is required',
         index: true, 
         }         
     ],
