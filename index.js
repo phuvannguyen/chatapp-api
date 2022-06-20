@@ -4,9 +4,8 @@ import bodyParser from "body-parser"
 import dotenv from 'dotenv'
 import cors from "cors"
 import http from "http"
-import Users from "./model/user/index.js"
-import {login, registation} from "./controllers/auth.js"
-import { authenToken } from "./middleware/index.js"
+import router from "./router/index.js"
+
 
 //app config
 const app = express();
@@ -37,31 +36,7 @@ try {
   }
 
 //router
-
-app.get("/", authenToken, (req, res) => {
-    res.send("Hello world. This is Phu Nguyen")
-    
-});
-
-app.post("/api/user", (req, res) => {
-  Users.create(req.body, (err, data) => {
-    if (err) {
-      res.status(500).send(err)
-    } else {
-      res.status(200).send(data)
-    }
-  });
-  
-
-
-});
-
-app.post("/api/login", login);
-
-app.post("/api/registation", registation)
-
-
-
+app.use(router)
 
 server.listen(port, () => {
     console.log("Hi port:" + port)
