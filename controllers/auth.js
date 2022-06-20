@@ -11,7 +11,7 @@ export const login = async (req, res) => {
     const hashPassword = bcrypt.hashSync(password, 10);
     let isUser;
     try {
-        isUser = await Users.findOne({username, hashPassword}).exec();                    
+        isUser = await Users.findOne({username}).exec();                           
         
     } catch (error) {
         res.status(500).send(err);
@@ -22,8 +22,16 @@ export const login = async (req, res) => {
     if (!isUser) {
        res.status(500).send("Error: Wrong username or password");
        return        
-    };
+    };   
 
+    const isMatchPass = await bcrypt.compare(password, isUser.password, (err, result) => {        
+        if (!result) {
+            res.status(500).send("Error: Wrong username or password");
+            return
+        };               
+
+    });
+    
     //send JWT
     const privateKey = process.env.ACCESS_SECRET;
     jwt.sign({username: username, password: password}, privateKey, { algorithm: 'HS256' }, function(err, token) {
@@ -32,7 +40,7 @@ export const login = async (req, res) => {
             return res.status(400).send({ message: err });
             
           };        
-        res.json({token: token})
+        res.json({token, user: isUser})
     });
     console.log("Login", username, password)
     
