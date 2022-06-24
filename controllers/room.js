@@ -1,10 +1,8 @@
 import Conversation from "../model/conversation/index.js";
 
 
-
-
-export const getRooms = async (req, res) => {    
-    const {_id} = req.body;    
+export const getRooms = async (req, res) => {        
+    const { _id } = req.query;             
     let rooms;
     try {
         rooms = await Conversation.find({$or:[{owner: _id},{member: [_id]}]}).exec()
@@ -21,7 +19,7 @@ export const getRooms = async (req, res) => {
 
 export const postRooms = async (req, res) => {
     const {_id, title, descrition, member} = req.body;
-    console.log("id", _id)
+    
     let newRooms;
     try {
         newRooms = await Conversation.create({title, descrition, owner: _id, member: [member]})
