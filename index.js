@@ -21,7 +21,7 @@ app.use(cors(corsOptions))
 
 //middleware
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 const server = http.createServer(app)
 
 //DB config
