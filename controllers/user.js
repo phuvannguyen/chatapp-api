@@ -28,3 +28,6 @@ import Users from "../model/user/index.js";
     const user = req.user;        
     return res.status(200).json(user)
   };
+
+  //join a room
+  
