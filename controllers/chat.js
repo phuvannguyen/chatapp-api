@@ -3,14 +3,16 @@ import Message from "../model/messages/index.js";
 export const chats = async (req, res, next) => {
     const room = req.room;
     const { _id } = room;
-    Message.find({conversation: _id}, (error, chats) => {
+    Message.find({conversation: _id}).populate("owner", "username profile").exec((error, chats) => {
         if (error) {
+            console.log(error);
             return res.status(500).send(error)
         };
         return res.status(200).json(chats);
 
     })
 }
+
 
 export const createChat = async (req, res, next) => {
     const room = req.room;
