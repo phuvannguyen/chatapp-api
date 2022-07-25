@@ -14,7 +14,7 @@ export const login = async (req, res) => {
         isUser = await Users.findOne({username}).exec();                           
         
     } catch (error) {
-        res.status(500).send(err);
+        res.status(500).send(error);
         return       
         
     };
