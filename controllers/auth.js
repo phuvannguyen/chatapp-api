@@ -1,88 +1,88 @@
 import Users from "../model/user/index.js";
 import bcrypt from "bcrypt"
 import dotenv from 'dotenv'
-import jwt  from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 
 dotenv.config();
 
 export const login = async (req, res) => {
-    const { username, password} = req.body;    
+    const { username, password } = req.body;
     //hash password to compare password in database
     const hashPassword = bcrypt.hashSync(password, 10);
-    let isUser;
+    let userFound;
     try {
-        isUser = await Users.findOne({username}).exec();                           
-        
+        userFound = await Users.findOne({ username }).exec();
+
     } catch (error) {
         res.status(500).send(error);
-        return       
-        
+        return
+
     };
 
-    if (!isUser) {
-       res.status(500).send("Error: Wrong username or password");
-       return        
-    };   
+    if (!userFound) {
+        res.status(500).send("Error: Wrong username or password");
+        return
+    };
 
-    const isMatchPass = await bcrypt.compare(password, isUser.password, (err, result) => {        
+    const isMatchPass = await bcrypt.compare(password, userFound.password, (err, result) => {
         if (!result) {
             res.status(500).send("Error: Wrong username or password");
             return
-        };               
+        };
 
     });
-    
+
     //send JWT
     const privateKey = process.env.ACCESS_SECRET;
-    jwt.sign({username: username, password: password}, privateKey, { algorithm: 'HS256' }, function(err, token) {
+    jwt.sign({ username: username, testdata1: 111, id: userFound._id }, privateKey, { algorithm: 'HS256' }, function (err, token) {
         if (err) {
             console.log(err);
             return res.status(400).send({ message: err });
-            
-          };        
-        res.json({token, user: isUser})
+
+        };
+        res.json({ token, user: userFound })
     });
-    console.log("Login", username, password)
     
+
 
 };
 
-export const registation = async(req, res) => {
-    const {username, email, password} = req.body;
+export const registation = async (req, res) => {
+    const { username, email, password } = req.body;
     const hashPassword = bcrypt.hashSync(password, 10);
     let isUsername;
     let isEmail;
     try {
-        isUsername = await Users.findOne({username});
-        isEmail = await Users.findOne({email})
+        isUsername = await Users.findOne({ username });
+        isEmail = await Users.findOne({ email })
     } catch (error) {
         res.status(500).send(error);
         return
-        
+
     };
 
     if (isUsername) {
         res.status(500).send("Error: Exist username");
-        return 
+        return
 
     };
 
     if (isEmail) {
         res.status(500).send("Error: Exist email");
-        return 
+        return
 
     };
 
     try {
-        await Users.create({username, email, password: hashPassword});
+        await Users.create({ username, email, password: hashPassword });
         console.log(username, email, hashPassword);
-        res.status(200).send("Success");        
-                
+        res.status(200).send("Success");
+
     } catch (error) {
-        
+
         res.status(400).send(error)
         console.log(error)
-    }    
+    }
 
 
 }

@@ -16,9 +16,10 @@ export const chats = async (req, res, next) => {
 
 export const createChat = async (req, res, next) => {
     const room = req.room;
-    const owner = req.owner;
+    const ownerId = req.id;
+
     const { content } = req.body;
-    const ownerId = owner[0].owner;   
+       
     Message.create({
         conversation:room._id,
         owner: ownerId,

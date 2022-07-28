@@ -29,7 +29,7 @@ export const isRoomIdValid = async (req, res, next) => {
 };
 // identify id  of owner existed or  not.
 export const isRoomOwner = async (req, res, next) => {
-    const {_id} = req.query;
+    const _id = req.id;
     Conversation.find({owner: _id}, (error, owner) => {
         if (error) {
             res.status(500).send(error);
@@ -40,8 +40,9 @@ export const isRoomOwner = async (req, res, next) => {
             res.status(500).send("Owner is not existed");
             return;
         };
+        console.log(owner);
 
-        req.owner = owner
+        req.id = _id
 
 
     })
