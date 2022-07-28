@@ -39,8 +39,7 @@ export const isRoomOwner = async (req, res, next) => {
         if (!owner) {
             res.status(500).send("Owner is not existed");
             return;
-        };
-        console.log(owner);
+        };       
 
         req.id = _id
 
