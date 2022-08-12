@@ -9,7 +9,11 @@ import Users from "../model/user/index.js";
   
   // Returns all users.
   export const users = async (req, res, next) => {
-    Users.find({}, (error, users) => {
+    const {content} = req.query;
+    console.log("content:", content);
+
+    Users.find({$or:[{username: new RegExp('^'+content+'$', "i")},
+                     {profile: {name: new RegExp('^'+content+'$', "i")}}]}, (error, users) => {
         if (error) {
             return res.status(500).send(error)
         };
