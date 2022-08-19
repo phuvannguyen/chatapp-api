@@ -12,8 +12,8 @@ import Users from "../model/user/index.js";
     const {content} = req.query;
     console.log("content:", content);
 
-    Users.find({$or:[{username: new RegExp('^'+content+'$', "i")},
-                     {profile: {name: new RegExp('^'+content+'$', "i")}}]}, (error, users) => {
+    Users.find({$or:[{username: new RegExp(content, "i")},
+                     {profile: {name: new RegExp(content, "i")}}]}, (error, users) => {
         if (error) {
             return res.status(500).send(error)
         };
