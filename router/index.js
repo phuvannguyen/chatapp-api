@@ -3,7 +3,7 @@ import { authenToken } from "../middleware/auth.js";
 import { isRoomIdValid, isRoomOwner } from "../middleware/room.js";
 import Users from "../model/user/index.js";
 import {login, registation} from "../controllers/auth.js"
-import { getRooms, postRooms, filterRoom, getOneRoom, editRoom, joinRoom, leaveRoom, deleteRoom } from "../controllers/room.js";
+import { getRooms, postRooms, filterRoom, getOneRoom, editRoom, joinRoom, leaveRoom, deleteRoom, findJoinedByUser } from "../controllers/room.js";
 import { chats, createChat, deleteChat, editChat, getChat } from "../controllers/chat.js";
 import { isChatIdValid } from "../middleware/chat.js";
 import { findUser, users } from "../controllers/user.js";
@@ -18,7 +18,9 @@ const router = express.Router();
  router.get("/api/" + 'users/:_id', isUserValid, findUser);
  
  // User -> Room. 
-//  router.get("/api/" + 'users/:_id/rooms/owned', isUserValid, userOwner);
+// User -> Room.
+  router.get('/api/users/:_idOwner/:_idMember/', findJoinedByUser);
+  // router.get('/api/users/:_id/rooms/owned', c(room.findOwnerByUser, (req) => [req.params._id]));
  
 
 //router for room

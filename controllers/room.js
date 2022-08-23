@@ -145,3 +145,17 @@ export const deleteRoom = async (req, res, next) => {
         res.status(200).json();
     })
 }
+//Check room by id of two user
+
+export const findJoinedByUser = (req, res, next) => {
+    const ownerId = req.params._idOwner;
+    const memberId = req.params._idMember;
+    
+    Conversation.findOne({owner: ownerId, member:{$in: [memberId]}}, (err, result) => {
+        if (err) {
+        return res.status(500).json({message: err.message})
+        };
+        res.status(200).json(result); 
+    })
+
+}
