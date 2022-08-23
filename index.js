@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import cors from "cors"
 import http from "http"
 import router from "./router/index.js"
+import { Server } from "socket.io"
 
 
 //app config
@@ -20,9 +21,10 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 //middleware
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-const server = http.createServer(app)
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+const server = http.createServer(app);
 
 //DB config
 const url = process.env.url_Mongoodb;
@@ -37,6 +39,30 @@ try {
 
 //router
 app.use(router)
+
+//socket
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  }
+
+});
+
+io.on('connection', (socket) => {
+  console.log(`User is connected: ${socket.id}`);
+  socket.on("chat", (data) => {
+    console.log("Hi");
+    console.log(data);
+    sockets.emit('chat', msg)
+    // ...
+  });
+  socket.disconnect("disconnect", () => {
+    console.log(`User is disconnected: ${socket.id}`)
+  })
+});
+
+
+
 
 server.listen(port, () => {
     console.log("Hi port:" + port)
