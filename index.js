@@ -6,7 +6,7 @@ import cors from "cors"
 import http from "http"
 import router from "./router/index.js"
 import { Server } from "socket.io"
-
+import controllerHandler from "./socket/index.js"
 
 //app config
 const app = express();
@@ -48,18 +48,7 @@ const io = new Server(server, {
 
 });
 
-io.on('connection', (socket) => {
-  console.log(`User is connected: ${socket.id}`);
-  socket.on("chat", (data) => {
-    console.log("Hi");
-    console.log(data);
-    sockets.emit('chat', msg)
-    // ...
-  });
-  socket.disconnect("disconnect", () => {
-    console.log(`User is disconnected: ${socket.id}`)
-  })
-});
+io.on('connection', controllerHandler);
 
 
 
