@@ -48,7 +48,7 @@ const io = new Server(server, {
 
 });
 
-io.on('connection', controllerHandler);
+io.on('connection', (socket) => controllerHandler(io, socket));
 
 
 
