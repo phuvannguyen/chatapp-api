@@ -24,13 +24,14 @@ export const login = async (req, res) => {
         return
     };
 
-    const isMatchPass = await bcrypt.compare(password, userFound.password, (err, result) => {
-        if (!result) {
-            res.status(500).send("Error: Wrong username or password");
-            return
-        };
-
-    });
+    try {
+        const isMatchPass = await bcrypt.compare(password, userFound.password);
+        
+    } catch (error) {
+        res.status(500).send("Error: Wrong username or password");
+        return;
+        
+    }    
 
     //send JWT
     const privateKey = process.env.ACCESS_SECRET;
@@ -40,7 +41,7 @@ export const login = async (req, res) => {
             return res.status(400).send({ message: err });
 
         };
-        res.json({ token, user: userFound })
+        return res.json({ token, user: userFound })
     });
     
 
@@ -76,12 +77,12 @@ export const registation = async (req, res) => {
     try {
         await Users.create({ username, email, password: hashPassword });
         console.log(username, email, hashPassword);
-        res.status(200).send("Success");
+        return res.status(200).send("Success");
 
     } catch (error) {
-
-        res.status(400).send(error)
-        console.log(error)
+        console.log(error);
+        return res.status(400).send(error)
+        
     }
 
 
