@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -21,7 +22,5 @@
     "range-parser": "^1.2.1",
     "socket.io": "^4.5.1"
   },
-  "devDependencies": {
-    "bcrypt": "^5.0.1"
-  }
+  "devDependencies": {}
 }
