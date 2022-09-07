@@ -11,7 +11,7 @@ import controllerHandler from "./socket/index.js"
 //app config
 const app = express();
 dotenv.config();
-const port = process.env.PORT
+const port = process.env.PORT || 3000;
 
 const corsOptions = {
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
