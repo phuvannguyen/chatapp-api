@@ -43,7 +43,7 @@ app.use(router)
 //socket
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-app-client-02.herokuapp.com",
+    origin: "http://127.0.0.1:5173",
   }
 
 });
