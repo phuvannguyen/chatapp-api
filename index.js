@@ -11,7 +11,7 @@ import controllerHandler from "./socket/index.js"
 //app config
 const app = express();
 dotenv.config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 const corsOptions = {
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -43,7 +43,7 @@ app.use(router)
 //socket
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5173/",
+    origin: "http://127.0.0.1:5173",
   }
 
 });
